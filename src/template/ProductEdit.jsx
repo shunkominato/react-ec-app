@@ -9,21 +9,19 @@ import { db } from '../firebase'
 const ProductEdit = () => {
 	const dispatch = useDispatch()
 	let id = window.location.pathname.split('product/edit')[1]
-	console.log('pro')
-	console.log(id)
 
 	if(id){
-		console.log('id')
 		id = id.split('/')[1]
 	}
 
 
 	const [name, setName] = useState(''),
 				[description, setDescription] = useState(''),
-				[category, setCategory] = useState(''),
+				[category, setCategory] = useState('a'),
+				[categories, setCategories] = useState([]),
 				[gender, setGender] = useState(''),
 				[images, setImages] = useState([]),
-				[price, setPrice] = useState(''),
+				[price, setPrice] = useState(0),
 				[sizes, setSizes] = useState([])
 
 	const inputName = useCallback((event) => {
@@ -46,11 +44,6 @@ const ProductEdit = () => {
 		setPrice(event.target.value)
 	}, [setPrice])
 
-	const categories = 	[
-		{id: 'tops', name: 'トップス'},
-		{id: 'shirts', name: 'シャツ'},
-		{id: 'pants', name: 'パンツ'}
-	]
 
 	const genders = [
 		{id: 'men', name: '男'},
@@ -58,14 +51,10 @@ const ProductEdit = () => {
 	]
 
 	useEffect(() => {
-		console.log('effe')
 		if(id){
-			console.log('id')
-			console.log(id)
 			db.collection('products').doc(id).get()
 			.then(snapshot => {
 				const data = snapshot.data()
-				console.log(data)
 				setName(data.name)
 				setDescription(data.description)
 				setCategory(data.category)
@@ -76,6 +65,23 @@ const ProductEdit = () => {
 			})
 		}
 	}, [id])
+
+	useEffect(() => {
+		console.log('categooooo')
+		db.collection('categories').get()
+		.then((snapShots) => {
+			const list = []
+			snapShots.forEach((snapShot) => {
+				const data = snapShot.data()
+				list.push({
+					id: data.id,
+					name: data.name
+				})
+			})
+			console.log(list)
+			setCategories(list)
+		})
+	}, [])
 
 	return (
 		<section>

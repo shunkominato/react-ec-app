@@ -47,8 +47,6 @@ const ImageArea = (props) => {
 		return storage.ref('image').child(id).delete()
 	}, [props.setImages])
 
-	console.log(props)
-
 	return (
 		<div>
 			<div className="p-grid__list-images">

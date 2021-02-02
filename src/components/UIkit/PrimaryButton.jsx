@@ -15,8 +15,6 @@ const useStyles = makeStyles(() => ({
 
 
 const PrimaryButton = (props) => {
-    console.log('primary')
-    console.log(props)
     const classes = useStyles()
     return(
         <Button className={classes.button} variant="contained" onClick={() => props.onClick()}>
