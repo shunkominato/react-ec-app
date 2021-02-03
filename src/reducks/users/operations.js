@@ -5,19 +5,15 @@ import {auth, db, FirebaseTimeStamp} from '../../firebase/index'
 export const fetchFx = (num,nm) => {
 	return async (dispatch, getState) => {
 		const state = getState()
-		console.log('zz')
-		console.log(nm)
+
 
 			const url = 'https://api.exchangeratesapi.io/latest'
 			const response = await fetch(url).then(res => res.json()).catch(() => null)
-			console.log(response.rates.AUD)
+
 
 			dispatch(setFx({
 				AUD:response.rates.AUD
 			}))
-
-			console.log(state)
-		
 	}
 }
 
@@ -27,21 +23,16 @@ export const signIn = (email, password) => {
 			alert('必須項目が未入力です')
 			return false
 		}
-		console.log('in')
 
 		auth.signInWithEmailAndPassword(email, password)
 		.then(result => {
 			if(result.user){
-				console.log('signIn')
-				console.log(result)
 				const uid = result.user.uid
 
 				db.collection('users').doc(uid).get()
 				.then(snapshot => {
-					console.log('成功')
-					console.log(snapshot)
+
 					const data = snapshot.data
-					console.log(data.role)
 
 					dispatch(signInActions({
 						isSigned: true,
@@ -71,7 +62,6 @@ export const signUp= (username, email, password, confirmPassword) => {
 
 		return auth.createUserWithEmailAndPassword(email, password)
 		.then(result => {
-			console.log(result)
 			const user = result.user
 
 			if(user){
@@ -89,7 +79,6 @@ export const signUp= (username, email, password, confirmPassword) => {
 
 				db.collection('users').doc(uid).set(userInitialData)
 				.then((res) => {
-					console.log(res)
 					dispatch(signInActions(userInitialData))
 					dispatch(push('/'))
 				})
@@ -126,7 +115,6 @@ export const listenAuthState = () => {
 
 export const signOut = () => {
 	return async (dispatch) => {
-		console.log('signout')
 		auth.signOut()
 		.then(() => {
 			dispatch(signOutAction())
@@ -154,8 +142,6 @@ export const addProductToCart = (addProduct) => {
 	return async (dispatch, getState) => {
 		const uid = getState().users.uid;
 		const cartRef = db.collection('users').doc(uid).collection('cart').doc();
-		console.log('oparator')
-		console.log(cartRef)
 		addProduct['cartId'] = cartRef.id;
 		await cartRef.set(addProduct);
 		// dispatch(push('/'));
@@ -164,7 +150,6 @@ export const addProductToCart = (addProduct) => {
 
 export const fetchProductsInCart = (products) => {
 	return async (dispatch) => {
-		console.log('fetchproduct')
 		dispatch(fetchProductsInCartAction(products))
 	}
 }

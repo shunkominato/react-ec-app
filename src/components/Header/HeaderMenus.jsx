@@ -11,8 +11,6 @@ const HeaderMenus = (props) => {
   const dispatch = useDispatch();
   const selector = useSelector(state => state);
   let productsInCart = getProductsInCart(selector)
-  console.log('heder')
-  console.log(productsInCart)
   const uid = getUserId(selector)
 
   // const [cart, setCart] = useState([])
@@ -24,10 +22,8 @@ const HeaderMenus = (props) => {
         const product = change.doc.data();
         const changeType = change.type;
 
-        console.log(product)
         switch (changeType) {
           case 'added':
-            console.log('add')
             productsInCart.push(product)
             break;
           case 'modified':

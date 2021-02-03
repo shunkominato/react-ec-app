@@ -4,8 +4,6 @@ import initialState from '../redusers/initialState'
 
 
 export const fxReducer = (state = initialState.fx, action) => {
-    console.log('reducers')
-    console.log(action)
     switch (action.type) {
         case Actions.GET_FX:
             // console.log(action.type)
@@ -19,8 +17,6 @@ export const fxReducer = (state = initialState.fx, action) => {
 }
 
 export const userReducer = (state = initialState.users, action) => {
-    console.log('reducers user')
-    console.log(action)
     switch (action.type) {
         case Actions.SIGN_IN:
             // console.log(action.type)
@@ -30,7 +26,6 @@ export const userReducer = (state = initialState.users, action) => {
             }
 
         case Actions.SIGN_OUT:
-            console.log('ggggg')
             return{
                 ...action.payload
             }
